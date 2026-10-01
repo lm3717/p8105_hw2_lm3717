@@ -1,0 +1,28 @@
+---
+title: "P8105 Homework 2"
+author: "Lina Marcinczyk"
+date: "2026-10-01"
+output: html_document
+---
+
+# Problem 1
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+### Importing the NYC Transit dataset 
+Read and clean the data; retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance. Convert the entry variable from character (YES vs NO) to a logical variable (case_match function may be useful).
+
+```{r}
+transit_df = 
+  readr::read_csv(
+    "data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv", 
+                  na = c("",".","NA")) |>
+  janitor::clean_names()|> 
+  dplyr::select(
+    line, station_name, station_latitude, station_longitude, 
+    route1:route11, entry, vending, entrance_type, ada
+    )
+```
+
