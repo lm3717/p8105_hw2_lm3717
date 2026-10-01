@@ -30,7 +30,10 @@ transit_df =
       "YES" ~ TRUE,
       "NO" ~ FALSE,
       .default = NA
-    )
-  ) 
+    )) 
 ```
+
+Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
+
+The cleaned subway dataset contains info about subway entrances, including the line, station name, routes served, whether entry is allowed, vending availability, entrance type, ADA compliance, and station coordinates. I standardized the column names, retained the relevant variables, and converted entry from YES/NO to TRUE/FALSE. The resulting dataset has 1,868 rows x 19 columns. The data are not fully tidy because routes served are spread across route1 through route11. These columns contain values of a single variable, route. A tidy structure would have one route column, with a separate row for each entrance–route combination. 
 
