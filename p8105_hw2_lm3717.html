@@ -374,7 +374,15 @@ logical variable (case_match function may be useful).</p>
   dplyr::select(
     line, station_name, station_latitude, station_longitude, 
     route1:route11, entry, vending, entrance_type, ada
-    )</code></pre>
+    ) |&gt; 
+  dplyr::mutate(
+    entry = dplyr::case_match(
+      entry,
+      &quot;YES&quot; ~ TRUE,
+      &quot;NO&quot; ~ FALSE,
+      .default = NA
+    )
+  ) </code></pre>
 <pre><code>## Rows: 1868 Columns: 32
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -384,6 +392,12 @@ logical variable (case_match function may be useful).</p>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## Warning: There was 1 warning in `dplyr::mutate()`.
+## ℹ In argument: `entry = dplyr::case_match(entry, &quot;YES&quot; ~ TRUE, &quot;NO&quot; ~ FALSE,
+##   .default = NA)`.
+## Caused by warning:
+## ! `case_match()` was deprecated in dplyr 1.2.0.
+## ℹ Please use `recode_values()` instead.</code></pre>
 </div>
 </div>
 

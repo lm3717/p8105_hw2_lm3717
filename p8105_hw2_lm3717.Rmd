@@ -23,6 +23,14 @@ transit_df =
   dplyr::select(
     line, station_name, station_latitude, station_longitude, 
     route1:route11, entry, vending, entrance_type, ada
+    ) |> 
+  dplyr::mutate(
+    entry = dplyr::case_match(
+      entry,
+      "YES" ~ TRUE,
+      "NO" ~ FALSE,
+      .default = NA
     )
+  ) 
 ```
 
