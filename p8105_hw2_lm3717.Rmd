@@ -37,3 +37,31 @@ Write a short paragraph about this dataset – explain briefly what variables th
 
 The cleaned subway dataset contains info about subway entrances, including the line, station name, routes served, whether entry is allowed, vending availability, entrance type, ADA compliance, and station coordinates. I standardized the column names, retained the relevant variables, and converted entry from YES/NO to TRUE/FALSE. The resulting dataset has 1,868 rows x 19 columns. The data are not fully tidy because routes served are spread across route1 through route11. These columns contain values of a single variable, route. A tidy structure would have one route column, with a separate row for each entrance–route combination. 
 
+### Data questions
+```{r}
+transit_df |>
+  distinct(line, station_name) |>
+  nrow()
+```
+There are 465 distinct stations. 
+
+```{r}
+transit_df |>
+  filter(ada == TRUE) |>
+  distinct(line, station_name) |>
+  nrow()
+```
+84 of the stations are ADA compliant.
+
+```{r}
+transit_df |>
+  filter(vending == "NO") |>
+  summarise(
+    proportion_allow_entry = mean(entry, na.rm = TRUE)
+  )
+```
+The proportion of station entrances / exits without vending that 
+allow entrance is 0.377.
+
+
+
