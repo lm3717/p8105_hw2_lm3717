@@ -63,5 +63,35 @@ transit_df |>
 The proportion of station entrances / exits without vending that 
 allow entrance is 0.377.
 
+### Reformat route number and name
+
+```{r}
+transit_long =
+  transit_df |>
+  mutate(across(route1:route11, as.character)) |>
+  tidyr::pivot_longer(
+    cols = route1:route11,
+    names_to = "route_number",
+    names_prefix = "route",
+    values_to = "route_name",
+    values_drop_na = TRUE
+  )
+```
+```{r}
+transit_long |>
+  filter(route_name == "A") |>
+  distinct(line, station_name) |>
+  nrow()
+```
+There are 60 distinct stations that serve the A train.
+
+```{r}
+transit_long |>
+  filter(route_name == "A", ada == TRUE) |>
+  distinct(line, station_name) |>
+  nrow()
+```
+17 of those 60 distinct stations are ADA compliant. 
+
 
 

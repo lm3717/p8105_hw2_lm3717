@@ -381,14 +381,7 @@ logical variable (case_match function may be useful).</p>
       &quot;YES&quot; ~ TRUE,
       &quot;NO&quot; ~ FALSE,
       .default = NA
-    )) |&gt; 
-  tidyr::unite(
-    station_routes, 
-    route1:route11,
-    sep = &quot;, &quot;,
-    na.rm = TRUE,
-    remove = TRUE
-) </code></pre>
+    )) </code></pre>
 <pre><code>## Rows: 1868 Columns: 32
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -407,8 +400,67 @@ logical variable (case_match function may be useful).</p>
 <p>Write a short paragraph about this dataset – explain briefly what
 variables the dataset contains, describe your data cleaning steps so
 far, and give the dimension (rows x columns) of the resulting dataset.
-Are these data tidy? This dataset contains station line, name, train
-names, whether entry is possible, whether coordinates,</p>
+Are these data tidy?</p>
+<p>The cleaned subway dataset contains info about subway entrances,
+including the line, station name, routes served, whether entry is
+allowed, vending availability, entrance type, ADA compliance, and
+station coordinates. I standardized the column names, retained the
+relevant variables, and converted entry from YES/NO to TRUE/FALSE. The
+resulting dataset has 1,868 rows x 19 columns. The data are not fully
+tidy because routes served are spread across route1 through route11.
+These columns contain values of a single variable, route. A tidy
+structure would have one route column, with a separate row for each
+entrance–route combination.</p>
+</div>
+<div id="data-questions" class="section level3">
+<h3>Data questions</h3>
+<pre class="r"><code>transit_df |&gt;
+  distinct(line, station_name) |&gt;
+  nrow()</code></pre>
+<pre><code>## [1] 465</code></pre>
+<p>There are 465 distinct stations.</p>
+<pre class="r"><code>transit_df |&gt;
+  filter(ada == TRUE) |&gt;
+  distinct(line, station_name) |&gt;
+  nrow()</code></pre>
+<pre><code>## [1] 84</code></pre>
+<p>84 of the stations are ADA compliant.</p>
+<pre class="r"><code>transit_df |&gt;
+  filter(vending == &quot;NO&quot;) |&gt;
+  summarise(
+    proportion_allow_entry = mean(entry, na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   proportion_allow_entry
+##                    &lt;dbl&gt;
+## 1                  0.377</code></pre>
+<p>The proportion of station entrances / exits without vending that
+allow entrance is 0.377.</p>
+</div>
+<div id="reformat-route-number-and-name" class="section level3">
+<h3>Reformat route number and name</h3>
+<pre class="r"><code>transit_long =
+  transit_df |&gt;
+  mutate(across(route1:route11, as.character)) |&gt;
+  tidyr::pivot_longer(
+    cols = route1:route11,
+    names_to = &quot;route_number&quot;,
+    names_prefix = &quot;route&quot;,
+    values_to = &quot;route_name&quot;,
+    values_drop_na = TRUE
+  )</code></pre>
+<pre class="r"><code>transit_long |&gt;
+  filter(route_name == &quot;A&quot;) |&gt;
+  distinct(line, station_name) |&gt;
+  nrow()</code></pre>
+<pre><code>## [1] 60</code></pre>
+<p>There are 60 distinct stations that serve the A train.</p>
+<pre class="r"><code>transit_long |&gt;
+  filter(route_name == &quot;A&quot;, ada == TRUE) |&gt;
+  distinct(line, station_name) |&gt;
+  nrow()</code></pre>
+<pre><code>## [1] 17</code></pre>
+<p>17 of those 60 distinct stations are ADA compliant.</p>
 </div>
 </div>
 
