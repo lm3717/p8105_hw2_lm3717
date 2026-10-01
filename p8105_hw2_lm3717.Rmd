@@ -93,5 +93,53 @@ transit_long |>
 ```
 17 of those 60 distinct stations are ADA compliant. 
 
+# Problem 2
+
+### Importing and cleaning Mr. Trash Wheel
+
+```{r}
+library(readxl)
+library(dplyr)
+
+mr_trash_df = read_excel(
+  "data/Trash_Wheel_Collection_Data.xlsx", 
+  sheet = "Mr. Trash Wheel",
+  range = "A2:N710") |> 
+  janitor::clean_names() |>
+  filter(!is.na(dumpster)) |>
+  mutate(
+    sports_balls = as.integer(round(sports_balls)),
+    year = as.integer(year),
+    trash_wheel = "Mr. Trash Wheel"
+  )
+
+prof_trash_df = read_excel(
+  "data/Trash_Wheel_Collection_Data.xlsx", 
+  sheet = "Professor Trash Wheel",
+  range = "A2:M135") |> 
+  janitor::clean_names() |> 
+  filter(!is.na(dumpster)) |> 
+  mutate(
+    year = as.integer(year),
+    trash_wheel = "Professor Trash Wheel"
+  )
+
+gwynnda_df = read_excel(
+  "data/Trash_Wheel_Collection_Data.xlsx", 
+  sheet = "Gwynns Falls Trash Wheel",
+  range = "A2:L352") |> 
+  janitor::clean_names() |>
+  filter(!is.na(dumpster)) |> 
+  mutate(
+    year = as.integer(year),
+    trash_wheel = "Gwynnda"
+    )
+
+trash_wheel_df = bind_rows(
+  mr_trash_df,
+  prof_trash_df,
+  gwynnda_df
+)
+```
 
 
