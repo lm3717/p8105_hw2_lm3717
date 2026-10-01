@@ -95,7 +95,7 @@ transit_long |>
 
 # Problem 2
 
-### Importing and cleaning Mr. Trash Wheel
+### Importing and cleaning Trash Wheels
 
 ```{r}
 library(readxl)
@@ -140,6 +140,22 @@ trash_wheel_df = bind_rows(
   prof_trash_df,
   gwynnda_df
 )
+
+trash_wheel_df
+
+prof_total_weight = trash_wheel_df |>
+  filter(trash_wheel == "Professor Trash Wheel") |>
+  summarize(total = sum(weight_tons, na.rm = TRUE)) |>
+  pull(total)
+
+gwynnda_june_2022_butts = trash_wheel_df |>
+  filter(
+    trash_wheel == "Gwynnda",
+    month == "June",
+    year == 2022
+  ) |>
+  summarize(total = sum(cigarette_butts, na.rm = TRUE)) |>
+  pull(total)
 ```
 
-
+The combined dataset contains `r nrow(trash_wheel_df)` observations, each representing a dumpster collected by Mr. Trash Wheel, Professor Trash Wheel, or Gwynnda. Key variables include the collection date, dumpster number, weight of trash in tons, volume in cubic yards, and counts of items such as plastic bottles and cigarette butts. The `trash_wheel` variable identifies which wheel collected each dumpster. Cleaning included standardizing variable names, removing rows without dumpster-specific data, and rounding Mr. Trash Wheel’s sports ball counts to integers. Across the available data, Professor Trash Wheel collected `r round(prof_total_weight, 2)` tons of trash, and Gwynnda collected `r gwynnda_june_2022_butts` cigarette butts in June 2022.
