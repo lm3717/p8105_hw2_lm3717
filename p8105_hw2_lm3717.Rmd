@@ -158,4 +158,32 @@ gwynnda_june_2022_butts = trash_wheel_df |>
   pull(total)
 ```
 
+### Data summaries
+
 The combined dataset contains `r nrow(trash_wheel_df)` observations, each representing a dumpster collected by Mr. Trash Wheel, Professor Trash Wheel, or Gwynnda. Key variables include the collection date, dumpster number, weight of trash in tons, volume in cubic yards, and counts of items such as plastic bottles and cigarette butts. The `trash_wheel` variable identifies which wheel collected each dumpster. Cleaning included standardizing variable names, removing rows without dumpster-specific data, and rounding Mr. Trash Wheel’s sports ball counts to integers. Across the available data, Professor Trash Wheel collected `r round(prof_total_weight, 2)` tons of trash, and Gwynnda collected `r gwynnda_june_2022_butts` cigarette butts in June 2022.
+
+# Problem 3
+
+This problem uses data collected in an observational study to understand the trajectory of Alzheimer’s disease (AD) biomarkers. Study participants were free of Mild Cognitive Impairment (MCI), a stage between the expected cognitive decline of normal aging and the more serious decline of dementia, at the study baseline.
+
+Basic demographic information were measured at the study baseline. The study monitored the development of MCI and recorded the age of MCI onset during the follow-up period, with the last visit marking the end of follow-up. APOE4 is a variant of the apolipoprotein E gene, significantly associated with a higher risk of developing Alzheimer’s disease. The amyloid 𝛽42/40 ratio holds significant promise for diagnosing and predicting disease outcomes. This ratio undergoes changes over time and has been linked to the manifestation of clinical symptoms of Alzheimer’s disease.
+
+Import, clean, and tidy the dataset of baseline demographics. Ensure that sex and APOE4 carrier status are appropriate encoded (i.e. not numeric), and remove any participants who do not meet the stated inclusion criteria (i.e. no MCI at baseline). Discuss important steps in the import process and relevant features of the dataset. How many participants were recruited, and of these how many develop MCI? What is the average baseline age? What proportion of women in the study are APOE4 carriers?
+
+Similarly, import, clean, and tidy the dataset of longitudinally observed biomarker values; comment on the steps on the import process and the features of the dataset.
+
+Check whether some participants appear in only the baseline or amyloid datasets, and comment on your findings. Combine the demographic and biomarker datasets so that only participants who appear in both datasets are retained, and briefly describe the resulting dataset; export the result as a CSV to your data directory.
+
+### Baseline Demographics
+
+```{r}
+baseline_df = 
+  readr::read_csv(
+    "data/MCI_baseline.csv",
+                  skip = 1,
+                  na = c("", ".", "NA")
+    ) |> 
+  janitor::clean_names()  
+```
+
+
