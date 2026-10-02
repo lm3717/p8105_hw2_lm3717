@@ -541,6 +541,9 @@ gwynnda_june_2022_butts = trash_wheel_df |&gt;
   ) |&gt;
   summarize(total = sum(cigarette_butts, na.rm = TRUE)) |&gt;
   pull(total)</code></pre>
+</div>
+<div id="data-summaries" class="section level3">
+<h3>Data summaries</h3>
 <p>The combined dataset contains 1188 observations, each representing a
 dumpster collected by Mr. Trash Wheel, Professor Trash Wheel, or
 Gwynnda. Key variables include the collection date, dumpster number,
@@ -552,6 +555,57 @@ dumpster-specific data, and rounding Mr. Trash Wheel’s sports ball
 counts to integers. Across the available data, Professor Trash Wheel
 collected 282.26 tons of trash, and Gwynnda collected 1.812^{4}
 cigarette butts in June 2022.</p>
+</div>
+</div>
+<div id="problem-3" class="section level1">
+<h1>Problem 3</h1>
+<p>Alzheimer’s study</p>
+<p>Discuss important steps in the import process and relevant features
+of the dataset. How many participants were recruited, and of these how
+many develop MCI? What is the average baseline age? What proportion of
+women in the study are APOE4 carriers?</p>
+<p>Similarly, import, clean, and tidy the dataset of longitudinally
+observed biomarker values; comment on the steps on the import process
+and the features of the dataset.</p>
+<p>Check whether some participants appear in only the baseline or
+amyloid datasets, and comment on your findings. Combine the demographic
+and biomarker datasets so that only participants who appear in both
+datasets are retained, and briefly describe the resulting dataset;
+export the result as a CSV to your data directory.</p>
+<div id="baseline-demographics" class="section level3">
+<h3>Baseline Demographics</h3>
+<pre class="r"><code>baseline_df = 
+  readr::read_csv(
+    &quot;data/MCI_baseline.csv&quot;,
+                  skip = 1,
+                  na = c(&quot;&quot;, &quot;.&quot;, &quot;NA&quot;)
+    ) |&gt; 
+  janitor::clean_names() |&gt; 
+  dplyr::mutate(
+    sex = factor(
+      dplyr::case_match(
+      sex,
+      1 ~ &quot;male&quot;,
+      0 ~ &quot;female&quot;
+      ))) |&gt; 
+   dplyr::mutate(
+    apoe4 = factor(
+      dplyr::case_match(
+      apoe4,
+      1 ~ &quot;carrier&quot;,
+      0 ~ &quot;non-carrier&quot;
+      ))) |&gt; 
+  filter(
+    age_at_onset &gt; current_age |
+      is.na(age_at_onset)
+  )</code></pre>
+<pre><code>## Rows: 483 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (6): ID, Current Age, Sex, Education, apoe4, Age at onset
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
 

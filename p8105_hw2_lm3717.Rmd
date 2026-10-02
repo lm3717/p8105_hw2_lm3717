@@ -164,11 +164,9 @@ The combined dataset contains `r nrow(trash_wheel_df)` observations, each repres
 
 # Problem 3
 
-This problem uses data collected in an observational study to understand the trajectory of Alzheimer’s disease (AD) biomarkers. Study participants were free of Mild Cognitive Impairment (MCI), a stage between the expected cognitive decline of normal aging and the more serious decline of dementia, at the study baseline.
+Alzheimer's study
 
-Basic demographic information were measured at the study baseline. The study monitored the development of MCI and recorded the age of MCI onset during the follow-up period, with the last visit marking the end of follow-up. APOE4 is a variant of the apolipoprotein E gene, significantly associated with a higher risk of developing Alzheimer’s disease. The amyloid 𝛽42/40 ratio holds significant promise for diagnosing and predicting disease outcomes. This ratio undergoes changes over time and has been linked to the manifestation of clinical symptoms of Alzheimer’s disease.
-
-Import, clean, and tidy the dataset of baseline demographics. Ensure that sex and APOE4 carrier status are appropriate encoded (i.e. not numeric), and remove any participants who do not meet the stated inclusion criteria (i.e. no MCI at baseline). Discuss important steps in the import process and relevant features of the dataset. How many participants were recruited, and of these how many develop MCI? What is the average baseline age? What proportion of women in the study are APOE4 carriers?
+Discuss important steps in the import process and relevant features of the dataset. How many participants were recruited, and of these how many develop MCI? What is the average baseline age? What proportion of women in the study are APOE4 carriers?
 
 Similarly, import, clean, and tidy the dataset of longitudinally observed biomarker values; comment on the steps on the import process and the features of the dataset.
 
@@ -183,7 +181,25 @@ baseline_df =
                   skip = 1,
                   na = c("", ".", "NA")
     ) |> 
-  janitor::clean_names()  
+  janitor::clean_names() |> 
+  dplyr::mutate(
+    sex = factor(
+      dplyr::case_match(
+      sex,
+      1 ~ "male",
+      0 ~ "female"
+      ))) |> 
+   dplyr::mutate(
+    apoe4 = factor(
+      dplyr::case_match(
+      apoe4,
+      1 ~ "carrier",
+      0 ~ "non-carrier"
+      ))) |> 
+  filter(
+    age_at_onset > current_age |
+      is.na(age_at_onset)
+  )
 ```
 
 
