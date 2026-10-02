@@ -166,12 +166,6 @@ The combined dataset contains `r nrow(trash_wheel_df)` observations, each repres
 
 Alzheimer's study
 
-Discuss important steps in the import process and relevant features of the dataset. How many participants were recruited, and of these how many develop MCI? What is the average baseline age? What proportion of women in the study are APOE4 carriers?
-
-Similarly, import, clean, and tidy the dataset of longitudinally observed biomarker values; comment on the steps on the import process and the features of the dataset.
-
-Check whether some participants appear in only the baseline or amyloid datasets, and comment on your findings. Combine the demographic and biomarker datasets so that only participants who appear in both datasets are retained, and briefly describe the resulting dataset; export the result as a CSV to your data directory.
-
 ### Baseline Demographics
 
 ```{r}
@@ -199,7 +193,68 @@ baseline_df =
   filter(
     age_at_onset > current_age |
       is.na(age_at_onset)
-  )
+  ) 
 ```
 
+During import, I had to skip row 1 in order for the clean_names function to work. The values marked as "." were recognized as NA, and sex and APOE4 needed to be converted to factors, as instructed. Lastly, 4 participants with MCI at baseline were excluded, while retaining the missing onset ages, as those participants qualified. 
 
+There were 483 participants recruited, of whom `r nrow(baseline_df)` met the baseline inclusion criterion. Among eligible participants, `r sum(!is.na(baseline_df$age_at_onset))` developed MCI. The mean baseline age was `r round(mean(baseline_df$current_age, na.rm = TRUE), 2)` years. Among women with known APOE4 status, `r round(100 * mean(baseline_df$apoe4[baseline_df$sex %in% "female"] == "carrier", na.rm = TRUE), 1)`% were APOE4 carriers.
+
+### Amyloid Demographics 
+
+```{r}
+messy_amyloid_df = 
+  readr::read_csv(
+    "data/mci_amyloid.csv",
+                  skip = 1,
+                  na = c("", ".", "NA")
+    ) |> 
+  janitor::clean_names() 
+
+  amyloid_df= tidyr::pivot_longer(
+      messy_amyloid_df,
+      cols = c(baseline, time_2:time_8),
+      names_to = "time",
+      values_to = "amyloid_ratio"
+    )
+```
+
+For import, I had to again skip row 1 for clean names, and also recognize "." as NA. Then I combined the amyloid ratio measurements into 1 column rather than 5 by using pivot_longer. 
+
+The dataset contains 487 participants with measurements scheduled at baseline and years 2, 4, 6, and 8. After reshaping, it contains `r nrow(amyloid_df)` rows and `r ncol(amyloid_df)` columns: participant ID, visit time, and amyloid ratio. Each row represents one participant at a single scheduled visit. There are `r sum(is.na(amyloid_df$amyloid_ratio))` missing amyloid measurements, which were retained.
+
+### Combining datasets
+
+```{r}
+amyloid_df = amyloid_df |> 
+  dplyr::rename(id = study_id)
+
+amyloid_ids <- amyloid_df |>
+  dplyr::distinct(id) |>
+  dplyr::mutate(has_amyloid = TRUE)
+
+baseline_check <- baseline_df |>
+  dplyr::left_join(amyloid_ids, by = "id")
+
+baseline_check |>
+  dplyr::filter(is.na(has_amyloid))
+
+baseline_ids <- baseline_df |>
+  dplyr::distinct(id) |>
+  dplyr::mutate(has_baseline = TRUE)
+
+amyloid_check <- amyloid_ids |>
+  dplyr::left_join(baseline_ids, by = "id")
+
+combined_df <- baseline_check |>
+  dplyr::filter(has_amyloid == TRUE) |>
+  dplyr::select(-has_amyloid) |>
+  dplyr::left_join(amyloid_df, by = "id")
+```
+
+There were `r sum(is.na(baseline_check$has_amyloid))` eligible baseline participants without amyloid records and `r sum(is.na(amyloid_check$has_baseline))` amyloid participants without eligible baseline records. The combined dataset contains `r dplyr::n_distinct(combined_df$id)` participants, `r nrow(combined_df)` rows, and `r ncol(combined_df)` columns. Each row represents one participant at one scheduled visit, with baseline demographics and the amyloid measurement.
+
+```{r}
+readr::write_csv(combined_df, 
+                 "data/mci_combined.csv")
+```

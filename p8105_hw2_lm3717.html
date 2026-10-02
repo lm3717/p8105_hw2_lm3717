@@ -560,18 +560,6 @@ cigarette butts in June 2022.</p>
 <div id="problem-3" class="section level1">
 <h1>Problem 3</h1>
 <p>Alzheimer’s study</p>
-<p>Discuss important steps in the import process and relevant features
-of the dataset. How many participants were recruited, and of these how
-many develop MCI? What is the average baseline age? What proportion of
-women in the study are APOE4 carriers?</p>
-<p>Similarly, import, clean, and tidy the dataset of longitudinally
-observed biomarker values; comment on the steps on the import process
-and the features of the dataset.</p>
-<p>Check whether some participants appear in only the baseline or
-amyloid datasets, and comment on your findings. Combine the demographic
-and biomarker datasets so that only participants who appear in both
-datasets are retained, and briefly describe the resulting dataset;
-export the result as a CSV to your data directory.</p>
 <div id="baseline-demographics" class="section level3">
 <h3>Baseline Demographics</h3>
 <pre class="r"><code>baseline_df = 
@@ -598,7 +586,7 @@ export the result as a CSV to your data directory.</p>
   filter(
     age_at_onset &gt; current_age |
       is.na(age_at_onset)
-  )</code></pre>
+  ) </code></pre>
 <pre><code>## Rows: 483 Columns: 6
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -606,6 +594,91 @@ export the result as a CSV to your data directory.</p>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>During import, I had to skip row 1 in order for the clean_names
+function to work. The values marked as “.” were recognized as NA, and
+sex and APOE4 needed to be converted to factors, as instructed. Lastly,
+4 participants with MCI at baseline were excluded, while retaining the
+missing onset ages, as those participants qualified.</p>
+<p>There were 483 participants recruited, of whom 479 met the baseline
+inclusion criterion. Among eligible participants, 93 developed MCI. The
+mean baseline age was 65.03 years. Among women with known APOE4 status,
+30% were APOE4 carriers.</p>
+</div>
+<div id="amyloid-demographics" class="section level3">
+<h3>Amyloid Demographics</h3>
+<pre class="r"><code>messy_amyloid_df = 
+  readr::read_csv(
+    &quot;data/mci_amyloid.csv&quot;,
+                  skip = 1,
+                  na = c(&quot;&quot;, &quot;.&quot;, &quot;NA&quot;)
+    ) |&gt; 
+  janitor::clean_names() </code></pre>
+<pre><code>## Rows: 487 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (5): Baseline, Time 2, Time 4, Time 6, Time 8
+## dbl (1): Study ID
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>  amyloid_df= tidyr::pivot_longer(
+      messy_amyloid_df,
+      cols = c(baseline, time_2:time_8),
+      names_to = &quot;time&quot;,
+      values_to = &quot;amyloid_ratio&quot;
+    )</code></pre>
+<p>For import, I had to again skip row 1 for clean names, and also
+recognize “.” as NA. Then I combined the amyloid ratio measurements into
+1 column rather than 5 by using pivot_longer.</p>
+<p>The dataset contains 487 participants with measurements scheduled at
+baseline and years 2, 4, 6, and 8. After reshaping, it contains 2435
+rows and 3 columns: participant ID, visit time, and amyloid ratio. Each
+row represents one participant at a single scheduled visit. There are
+163 missing amyloid measurements, which were retained.</p>
+</div>
+<div id="combining-datasets" class="section level3">
+<h3>Combining datasets</h3>
+<pre class="r"><code>amyloid_df = amyloid_df |&gt; 
+  dplyr::rename(id = study_id)
+
+amyloid_ids &lt;- amyloid_df |&gt;
+  dplyr::distinct(id) |&gt;
+  dplyr::mutate(has_amyloid = TRUE)
+
+baseline_check &lt;- baseline_df |&gt;
+  dplyr::left_join(amyloid_ids, by = &quot;id&quot;)
+
+baseline_check |&gt;
+  dplyr::filter(is.na(has_amyloid))</code></pre>
+<pre><code>## # A tibble: 8 × 7
+##      id current_age sex    education apoe4       age_at_onset has_amyloid
+##   &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt; &lt;lgl&gt;      
+## 1    14        58.4 female        20 non-carrier         66.2 NA         
+## 2    49        64.7 male          16 non-carrier         68.4 NA         
+## 3    92        68.6 female        20 non-carrier         NA   NA         
+## 4   179        68.1 male          16 non-carrier         NA   NA         
+## 5   268        61.4 female        18 carrier             67.5 NA         
+## 6   304        63.8 female        16 non-carrier         NA   NA         
+## 7   389        59.3 female        16 non-carrier         NA   NA         
+## 8   412        67   male          16 carrier             NA   NA</code></pre>
+<pre class="r"><code>baseline_ids &lt;- baseline_df |&gt;
+  dplyr::distinct(id) |&gt;
+  dplyr::mutate(has_baseline = TRUE)
+
+amyloid_check &lt;- amyloid_ids |&gt;
+  dplyr::left_join(baseline_ids, by = &quot;id&quot;)
+
+combined_df &lt;- baseline_check |&gt;
+  dplyr::filter(has_amyloid == TRUE) |&gt;
+  dplyr::select(-has_amyloid) |&gt;
+  dplyr::left_join(amyloid_df, by = &quot;id&quot;)</code></pre>
+<p>There were 8 eligible baseline participants without amyloid records
+and 16 amyloid participants without eligible baseline records. The
+combined dataset contains 471 participants, 2355 rows, and 8 columns.
+Each row represents one participant at one scheduled visit, with
+baseline demographics and the amyloid measurement.</p>
+<pre class="r"><code>readr::write_csv(combined_df, 
+                 &quot;data/mci_combined.csv&quot;)</code></pre>
 </div>
 </div>
 
