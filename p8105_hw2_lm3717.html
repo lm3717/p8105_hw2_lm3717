@@ -604,20 +604,19 @@ inclusion criterion. Among eligible participants, 93 developed MCI. The
 mean baseline age was 65.03 years. Among women with known APOE4 status,
 30% were APOE4 carriers.</p>
 </div>
-<div id="amyloid-demographics" class="section level3">
-<h3>Amyloid Demographics</h3>
+<div id="amyloid-measurements" class="section level3">
+<h3>Amyloid Measurements</h3>
 <pre class="r"><code>messy_amyloid_df = 
   readr::read_csv(
     &quot;data/mci_amyloid.csv&quot;,
                   skip = 1,
-                  na = c(&quot;&quot;, &quot;.&quot;, &quot;NA&quot;)
+                  na = c(&quot;&quot;, &quot;.&quot;, &quot;NA&quot;, &quot;Na&quot;)
     ) |&gt; 
   janitor::clean_names() </code></pre>
 <pre><code>## Rows: 487 Columns: 6
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (5): Baseline, Time 2, Time 4, Time 6, Time 8
-## dbl (1): Study ID
+## dbl (6): Study ID, Baseline, Time 2, Time 4, Time 6, Time 8
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
@@ -628,13 +627,13 @@ mean baseline age was 65.03 years. Among women with known APOE4 status,
       values_to = &quot;amyloid_ratio&quot;
     )</code></pre>
 <p>For import, I had to again skip row 1 for clean names, and also
-recognize “.” as NA. Then I combined the amyloid ratio measurements into
-1 column rather than 5 by using pivot_longer.</p>
+recognize ““,”.” as NA. Then I combined the amyloid ratio measurements
+into 1 column rather than 5 by using pivot_longer.</p>
 <p>The dataset contains 487 participants with measurements scheduled at
 baseline and years 2, 4, 6, and 8. After reshaping, it contains 2435
 rows and 3 columns: participant ID, visit time, and amyloid ratio. Each
 row represents one participant at a single scheduled visit. There are
-163 missing amyloid measurements, which were retained.</p>
+172 missing amyloid measurements, which were retained.</p>
 </div>
 <div id="combining-datasets" class="section level3">
 <h3>Combining datasets</h3>

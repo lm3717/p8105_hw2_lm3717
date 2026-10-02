@@ -200,14 +200,14 @@ During import, I had to skip row 1 in order for the clean_names function to work
 
 There were 483 participants recruited, of whom `r nrow(baseline_df)` met the baseline inclusion criterion. Among eligible participants, `r sum(!is.na(baseline_df$age_at_onset))` developed MCI. The mean baseline age was `r round(mean(baseline_df$current_age, na.rm = TRUE), 2)` years. Among women with known APOE4 status, `r round(100 * mean(baseline_df$apoe4[baseline_df$sex %in% "female"] == "carrier", na.rm = TRUE), 1)`% were APOE4 carriers.
 
-### Amyloid Demographics 
+### Amyloid Measurements 
 
 ```{r}
 messy_amyloid_df = 
   readr::read_csv(
     "data/mci_amyloid.csv",
                   skip = 1,
-                  na = c("", ".", "NA")
+                  na = c("", ".", "NA", "Na")
     ) |> 
   janitor::clean_names() 
 
@@ -219,7 +219,7 @@ messy_amyloid_df =
     )
 ```
 
-For import, I had to again skip row 1 for clean names, and also recognize "." as NA. Then I combined the amyloid ratio measurements into 1 column rather than 5 by using pivot_longer. 
+For import, I had to again skip row 1 for clean names, and also recognize "", "." as NA. Then I combined the amyloid ratio measurements into 1 column rather than 5 by using pivot_longer. 
 
 The dataset contains 487 participants with measurements scheduled at baseline and years 2, 4, 6, and 8. After reshaping, it contains `r nrow(amyloid_df)` rows and `r ncol(amyloid_df)` columns: participant ID, visit time, and amyloid ratio. Each row represents one participant at a single scheduled visit. There are `r sum(is.na(amyloid_df$amyloid_ratio))` missing amyloid measurements, which were retained.
 

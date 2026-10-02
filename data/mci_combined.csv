@@ -156,7 +156,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 32,64.7,male,16,non-carrier,NA,time_8,0.11116698
 33,66.2,male,18,non-carrier,NA,baseline,0.11282421
 33,66.2,male,18,non-carrier,NA,time_2,0.110933268
-33,66.2,male,18,non-carrier,NA,time_4,Na
+33,66.2,male,18,non-carrier,NA,time_4,NA
 33,66.2,male,18,non-carrier,NA,time_6,0.110644516
 33,66.2,male,18,non-carrier,NA,time_8,0.106447411
 34,64.8,female,16,carrier,NA,baseline,0.104993684
@@ -445,7 +445,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 93,68.5,male,16,carrier,NA,time_6,0.107999958
 93,68.5,male,16,carrier,NA,time_8,0.10394613
 94,67.1,male,16,non-carrier,NA,baseline,0.11389369
-94,67.1,male,16,non-carrier,NA,time_2,Na
+94,67.1,male,16,non-carrier,NA,time_2,NA
 94,67.1,male,16,non-carrier,NA,time_4,0.113000849
 94,67.1,male,16,non-carrier,NA,time_6,0.10867866
 94,67.1,male,16,non-carrier,NA,time_8,0.112277473
@@ -653,7 +653,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 135,65.9,male,16,non-carrier,NA,time_2,0.111465011
 135,65.9,male,16,non-carrier,NA,time_4,0.109640025
 135,65.9,male,16,non-carrier,NA,time_6,0.114620782
-135,65.9,male,16,non-carrier,NA,time_8,Na
+135,65.9,male,16,non-carrier,NA,time_8,NA
 136,60.4,male,16,non-carrier,NA,baseline,0.115013925
 136,60.4,male,16,non-carrier,NA,time_2,0.111166502
 136,60.4,male,16,non-carrier,NA,time_4,0.115401195
@@ -1081,7 +1081,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 221,59.8,female,18,non-carrier,NA,time_8,0.113910429
 222,65,male,16,non-carrier,NA,baseline,0.10719587
 222,65,male,16,non-carrier,NA,time_2,0.112179679
-222,65,male,16,non-carrier,NA,time_4,Na
+222,65,male,16,non-carrier,NA,time_4,NA
 222,65,male,16,non-carrier,NA,time_6,0.106680502
 222,65,male,16,non-carrier,NA,time_8,0.108297104
 223,63.1,female,20,carrier,NA,baseline,0.108381993
@@ -1190,7 +1190,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 244,62.4,male,16,non-carrier,NA,time_6,0.108497527
 244,62.4,male,16,non-carrier,NA,time_8,NA
 245,68.5,female,16,non-carrier,NA,baseline,0.110709106
-245,68.5,female,16,non-carrier,NA,time_2,0.111442223
+245,68.5,female,16,non-carrier,NA,time_2,0.11144222300000001
 245,68.5,female,16,non-carrier,NA,time_4,NA
 245,68.5,female,16,non-carrier,NA,time_6,0.108201473
 245,68.5,female,16,non-carrier,NA,time_8,NA
@@ -1311,7 +1311,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 269,64,male,20,non-carrier,NA,time_8,0.115596082
 270,62.2,male,16,carrier,NA,baseline,0.11031577
 270,62.2,male,16,carrier,NA,time_2,NA
-270,62.2,male,16,carrier,NA,time_4,0.109834068
+270,62.2,male,16,carrier,NA,time_4,0.10983406800000001
 270,62.2,male,16,carrier,NA,time_6,0.108219294
 270,62.2,male,16,carrier,NA,time_8,0.108880295
 271,64.2,male,12,carrier,NA,baseline,0.110585716
@@ -1376,7 +1376,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 282,63.8,female,16,carrier,NA,time_8,NA
 284,62.9,female,16,non-carrier,NA,baseline,0.110562425
 284,62.9,female,16,non-carrier,NA,time_2,0.108796483
-284,62.9,female,16,non-carrier,NA,time_4,0.112317119
+284,62.9,female,16,non-carrier,NA,time_4,0.11231711900000001
 284,62.9,female,16,non-carrier,NA,time_6,0.110036624
 284,62.9,female,16,non-carrier,NA,time_8,NA
 285,63.3,female,12,non-carrier,NA,baseline,0.110865277
@@ -1490,9 +1490,9 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 307,65.2,male,16,non-carrier,NA,time_6,0.110497676
 307,65.2,male,16,non-carrier,NA,time_8,0.109453551
 308,66.7,female,12,carrier,NA,baseline,0.107487702
-308,66.7,female,12,carrier,NA,time_2,Na
-308,66.7,female,12,carrier,NA,time_4,Na
-308,66.7,female,12,carrier,NA,time_6,Na
+308,66.7,female,12,carrier,NA,time_2,NA
+308,66.7,female,12,carrier,NA,time_4,NA
+308,66.7,female,12,carrier,NA,time_6,NA
 308,66.7,female,12,carrier,NA,time_8,0.108283938
 309,61.9,female,18,non-carrier,NA,baseline,0.113399772
 309,61.9,female,18,non-carrier,NA,time_2,0.110750724
@@ -1549,7 +1549,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 319,61.1,female,16,non-carrier,NA,time_4,0.115099192
 319,61.1,female,16,non-carrier,NA,time_6,0.112269423
 319,61.1,female,16,non-carrier,NA,time_8,0.111311591
-320,66.5,male,18,non-carrier,NA,baseline,0.105694718
+320,66.5,male,18,non-carrier,NA,baseline,0.10569471799999999
 320,66.5,male,18,non-carrier,NA,time_2,0.111338767
 320,66.5,male,18,non-carrier,NA,time_4,0.112005666
 320,66.5,male,18,non-carrier,NA,time_6,0.107506531
@@ -1723,7 +1723,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 354,64.4,male,20,carrier,NA,time_2,0.112454752
 354,64.4,male,20,carrier,NA,time_4,0.10789639
 354,64.4,male,20,carrier,NA,time_6,0.104688733
-354,64.4,male,20,carrier,NA,time_8,Na
+354,64.4,male,20,carrier,NA,time_8,NA
 355,69.7,male,16,carrier,75.3,baseline,0.104675217
 355,69.7,male,16,carrier,75.3,time_2,NA
 355,69.7,male,16,carrier,75.3,time_4,0.108340642
@@ -2169,7 +2169,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 446,56,male,16,carrier,NA,time_4,0.113766563
 446,56,male,16,carrier,NA,time_6,0.113627495
 446,56,male,16,carrier,NA,time_8,0.111382255
-447,60.9,male,16,non-carrier,NA,baseline,0.114193915
+447,60.9,male,16,non-carrier,NA,baseline,0.11419391499999999
 447,60.9,male,16,non-carrier,NA,time_2,0.113647613
 447,60.9,male,16,non-carrier,NA,time_4,0.111391413
 447,60.9,male,16,non-carrier,NA,time_6,0.109293994
@@ -2228,7 +2228,7 @@ id,current_age,sex,education,apoe4,age_at_onset,time,amyloid_ratio
 458,58.7,male,16,carrier,NA,time_2,0.111832245
 458,58.7,male,16,carrier,NA,time_4,0.110254455
 458,58.7,male,16,carrier,NA,time_6,0.108375329
-458,58.7,male,16,carrier,NA,time_8,0.108762325
+458,58.7,male,16,carrier,NA,time_8,0.10876232500000001
 459,62,male,16,non-carrier,NA,baseline,0.11079733
 459,62,male,16,non-carrier,NA,time_2,0.111978578
 459,62,male,16,non-carrier,NA,time_4,0.113613587
