@@ -120,6 +120,7 @@ prof_trash_df = read_excel(
   janitor::clean_names() |> 
   filter(!is.na(dumpster)) |> 
   mutate(
+    plastic_bottles = as.numeric(na_if(plastic_bottles, "dive")),
     year = as.integer(year),
     trash_wheel = "Professor Trash Wheel"
   )
