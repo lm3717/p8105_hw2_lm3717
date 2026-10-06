@@ -102,9 +102,9 @@ library(readxl)
 library(dplyr)
 
 mr_trash_df = read_excel(
-  "data/Trash_Wheel_Collection_Data.xlsx", 
+  "data/New_Trash_Wheel_Collection_Data.xlsx", 
   sheet = "Mr. Trash Wheel",
-  range = "A2:N710") |> 
+  range = "A2:N742") |> 
   janitor::clean_names() |>
   filter(!is.na(dumpster)) |>
   mutate(
@@ -114,9 +114,9 @@ mr_trash_df = read_excel(
   )
 
 prof_trash_df = read_excel(
-  "data/Trash_Wheel_Collection_Data.xlsx", 
+  "data/New_Trash_Wheel_Collection_Data.xlsx", 
   sheet = "Professor Trash Wheel",
-  range = "A2:M135") |> 
+  range = "A2:M139") |> 
   janitor::clean_names() |> 
   filter(!is.na(dumpster)) |> 
   mutate(
@@ -125,9 +125,9 @@ prof_trash_df = read_excel(
   )
 
 gwynnda_df = read_excel(
-  "data/Trash_Wheel_Collection_Data.xlsx", 
-  sheet = "Gwynns Falls Trash Wheel",
-  range = "A2:L352") |> 
+  "data/New_Trash_Wheel_Collection_Data.xlsx", 
+  sheet = "Gwynnda the Good Wheel of the W",
+  range = "A2:L394") |> 
   janitor::clean_names() |>
   filter(!is.na(dumpster)) |> 
   mutate(

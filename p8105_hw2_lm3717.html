@@ -471,7 +471,7 @@ allow entrance is 0.377.</p>
 library(dplyr)
 
 mr_trash_df = read_excel(
-  &quot;data/Trash_Wheel_Collection_Data.xlsx&quot;, 
+  &quot;data/New_Trash_Wheel_Collection_Data.xlsx&quot;, 
   sheet = &quot;Mr. Trash Wheel&quot;,
   range = &quot;A2:N710&quot;) |&gt; 
   janitor::clean_names() |&gt;
@@ -511,7 +511,7 @@ trash_wheel_df = bind_rows(
 )
 
 trash_wheel_df</code></pre>
-<pre><code>## # A tibble: 1,188 × 15
+<pre><code>## # A tibble: 1,189 × 15
 ##    dumpster month  year date                weight_tons volume_cubic_yards
 ##       &lt;dbl&gt; &lt;chr&gt; &lt;int&gt; &lt;dttm&gt;                    &lt;dbl&gt;              &lt;dbl&gt;
 ##  1        1 May    2014 2014-05-16 00:00:00        4.31                 18
@@ -524,7 +524,7 @@ trash_wheel_df</code></pre>
 ##  8        8 May    2014 2014-05-28 00:00:00        3.7                  16
 ##  9        9 June   2014 2014-06-05 00:00:00        2.52                 14
 ## 10       10 June   2014 2014-06-11 00:00:00        3.76                 18
-## # ℹ 1,178 more rows
+## # ℹ 1,179 more rows
 ## # ℹ 9 more variables: plastic_bottles &lt;dbl&gt;, polystyrene &lt;dbl&gt;,
 ## #   cigarette_butts &lt;dbl&gt;, glass_bottles &lt;dbl&gt;, plastic_bags &lt;dbl&gt;,
 ## #   wrappers &lt;dbl&gt;, sports_balls &lt;int&gt;, homes_powered &lt;dbl&gt;, trash_wheel &lt;chr&gt;</code></pre>
@@ -544,7 +544,7 @@ gwynnda_june_2022_butts = trash_wheel_df |&gt;
 </div>
 <div id="data-summaries" class="section level3">
 <h3>Data summaries</h3>
-<p>The combined dataset contains 1188 observations, each representing a
+<p>The combined dataset contains 1189 observations, each representing a
 dumpster collected by Mr. Trash Wheel, Professor Trash Wheel, or
 Gwynnda. Key variables include the collection date, dumpster number,
 weight of trash in tons, volume in cubic yards, and counts of items such
